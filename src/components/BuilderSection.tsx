@@ -26,15 +26,13 @@ const BENEFITS = [
   },
 ];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
+const ANIM = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+} as const;
 
-const staggerContainer = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
-};
+const ease = [0.25, 0.1, 0.25, 1] as any;
 
 export default function BuilderSection() {
   return (
@@ -52,15 +50,10 @@ export default function BuilderSection() {
             paddingRight: "clamp(2rem, 5vw, 5rem)",
           }}
         >
-          <motion.div
-            style={{ maxWidth: "520px" }}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={staggerContainer}
-          >
+          <div style={{ maxWidth: "520px" }}>
             <motion.p
-              variants={fadeUp}
+              {...ANIM}
+              transition={{ duration: 0.6, ease, delay: 0 }}
               style={{
                 fontFamily: "var(--font-sans)",
                 fontSize: "0.62rem",
@@ -75,7 +68,8 @@ export default function BuilderSection() {
             </motion.p>
 
             <motion.h2
-              variants={fadeUp}
+              {...ANIM}
+              transition={{ duration: 0.6, ease, delay: 0.12 }}
               style={{
                 fontFamily: "var(--font-serif)",
                 fontWeight: 300,
@@ -93,7 +87,8 @@ export default function BuilderSection() {
             </motion.h2>
 
             <motion.p
-              variants={fadeUp}
+              {...ANIM}
+              transition={{ duration: 0.6, ease, delay: 0.24 }}
               style={{
                 fontFamily: "var(--font-sans)",
                 fontWeight: 300,
@@ -110,7 +105,8 @@ export default function BuilderSection() {
 
             {/* Benefits grid */}
             <motion.div
-              variants={fadeUp}
+              {...ANIM}
+              transition={{ duration: 0.6, ease, delay: 0.36 }}
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
@@ -154,7 +150,7 @@ export default function BuilderSection() {
             </motion.div>
 
             {/* Email CTA */}
-            <motion.div variants={fadeUp}>
+            <motion.div {...ANIM} transition={{ duration: 0.6, ease, delay: 0.48 }}>
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
@@ -193,7 +189,7 @@ export default function BuilderSection() {
                 Email Our Builder Team
               </a>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Image - right */}

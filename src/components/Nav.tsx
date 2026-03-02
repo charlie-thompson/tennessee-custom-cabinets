@@ -25,6 +25,10 @@ export default function Nav() {
 
   return (
     <>
+      <style>{`
+        .mobile-only { display: none !important; }
+        @media (max-width: 768px) { .mobile-only { display: flex !important; } }
+      `}</style>
       <nav
         className="fixed top-0 left-0 right-0 z-50"
         style={{
@@ -46,7 +50,7 @@ export default function Nav() {
           }}
         >
           {/* Logo */}
-          <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
+          <a href="/" style={{ display: "flex" }}>
             <Image
               src="/TN-custom-cabinets-logo.PNG"
               alt="Tennessee Custom Cabinets"
@@ -55,7 +59,7 @@ export default function Nav() {
               style={{ objectFit: "contain" }}
               priority
             />
-          </Link>
+          </a>
 
           {/* Desktop nav */}
           <div
@@ -72,7 +76,7 @@ export default function Nav() {
 
           {/* Mobile toggle */}
           <button
-            className="md:hidden"
+            className="mobile-only"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label="Toggle navigation"
             style={{
