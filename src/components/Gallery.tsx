@@ -46,11 +46,29 @@ export default function Gallery() {
   const [activeFilter, setActiveFilter] = useState<Filter>("All");
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const filtered =
     activeFilter === "All"
       ? IMAGES
       : IMAGES.filter((img) => img.category === activeFilter);
+
+  const previewCount = isMobile ? 4 : 6;
+  const visible = expanded ? filtered : filtered.slice(0, previewCount);
+  const hasMore = filtered.length > previewCount;
+
+  // Reset expansion on filter change
+  useEffect(() => {
+    setExpanded(false);
+  }, [activeFilter]);
 
   // Keyboard nav + scroll lock for lightbox
   useEffect(() => {
@@ -200,7 +218,7 @@ export default function Gallery() {
               className="columns-1 sm:columns-2 lg:columns-3"
               style={{ columnGap: "10px" }}
             >
-              {filtered.map((img, i) => (
+              {visible.map((img, i) => (
                 <div
                   key={img.file}
                   style={{
@@ -275,6 +293,77 @@ export default function Gallery() {
               ))}
             </motion.div>
           </AnimatePresence>
+
+          {/* Expand / collapse controls */}
+          {hasMore && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "1rem",
+                marginTop: "2rem",
+              }}
+            >
+              {!expanded ? (
+                <button
+                  onClick={() => setExpanded(true)}
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "0.72rem",
+                    fontWeight: 500,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.88)",
+                    backgroundColor: "var(--charcoal)",
+                    border: "1px solid var(--charcoal)",
+                    padding: "0.9rem 2.25rem",
+                    cursor: "pointer",
+                    transition: "background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--brass)";
+                    e.currentTarget.style.borderColor = "var(--brass)";
+                    e.currentTarget.style.color = "var(--charcoal)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--charcoal)";
+                    e.currentTarget.style.borderColor = "var(--charcoal)";
+                    e.currentTarget.style.color = "rgba(255,255,255,0.88)";
+                  }}
+                >
+                  View All {filtered.length} Projects
+                </button>
+              ) : (
+                <button
+                  onClick={() => setExpanded(false)}
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "0.68rem",
+                    fontWeight: 400,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "var(--text-muted)",
+                    backgroundColor: "transparent",
+                    border: "1px solid rgba(0,0,0,0.12)",
+                    padding: "0.75rem 2rem",
+                    cursor: "pointer",
+                    transition: "color 0.2s ease, border-color 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = "var(--charcoal)";
+                    e.currentTarget.style.borderColor = "var(--charcoal)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = "var(--text-muted)";
+                    e.currentTarget.style.borderColor = "rgba(0,0,0,0.12)";
+                  }}
+                >
+                  Show Less
+                </button>
+              )}
+            </div>
+          )}
 
           {/* Bottom CTA */}
           <div
