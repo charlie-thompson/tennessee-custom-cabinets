@@ -32,7 +32,7 @@ const ANIM = {
   viewport: { once: true },
 } as const;
 
-const ease = [0.25, 0.1, 0.25, 1] as any;
+const ease = "easeOut";
 
 export default function BuilderSection() {
   return (

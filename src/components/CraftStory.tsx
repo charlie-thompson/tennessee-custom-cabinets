@@ -12,14 +12,6 @@ const SPECS = [
   "Middle Tennessee service area",
 ];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, delay: i * 0.1, ease: [0.25, 0.1, 0.25, 1] },
-  }),
-};
 
 export default function CraftStory() {
   return (
@@ -71,11 +63,10 @@ export default function CraftStory() {
         >
           <div style={{ maxWidth: "520px" }}>
             <motion.p
-              initial="hidden"
-              whileInView="show"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              custom={0}
-              variants={fadeUp}
+              transition={{ duration: 0.65, ease: "easeOut", delay: 0 }}
               style={{
                 fontFamily: "var(--font-sans)",
                 fontSize: "0.62rem",
@@ -90,11 +81,10 @@ export default function CraftStory() {
             </motion.p>
 
             <motion.h2
-              initial="hidden"
-              whileInView="show"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              custom={1}
-              variants={fadeUp}
+              transition={{ duration: 0.65, ease: "easeOut", delay: 0.1 }}
               style={{
                 fontFamily: "var(--font-serif)",
                 fontWeight: 300,
@@ -114,11 +104,10 @@ export default function CraftStory() {
             </motion.h2>
 
             <motion.p
-              initial="hidden"
-              whileInView="show"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              custom={2}
-              variants={fadeUp}
+              transition={{ duration: 0.65, ease: "easeOut", delay: 0.2 }}
               style={{
                 fontFamily: "var(--font-sans)",
                 fontWeight: 300,
@@ -135,11 +124,10 @@ export default function CraftStory() {
 
             {/* Specs grid */}
             <motion.div
-              initial="hidden"
-              whileInView="show"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              custom={3}
-              variants={fadeUp}
+              transition={{ duration: 0.65, ease: "easeOut", delay: 0.3 }}
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
@@ -179,11 +167,10 @@ export default function CraftStory() {
 
             {/* Stat box - inline after specs grid */}
             <motion.div
-              initial="hidden"
-              whileInView="show"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              custom={4}
-              variants={fadeUp}
+              transition={{ duration: 0.65, ease: "easeOut", delay: 0.4 }}
               style={{
                 display: "inline-flex",
                 flexDirection: "column",
