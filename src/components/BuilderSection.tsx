@@ -28,11 +28,12 @@ const BENEFITS = [
 
 const fadeUp = {
   hidden: { opacity: 0, y: 22 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, delay: i * 0.1, ease: [0.25, 0.1, 0.25, 1] },
-  }),
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+const staggerContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
 };
 
 export default function BuilderSection() {
@@ -51,12 +52,14 @@ export default function BuilderSection() {
             paddingRight: "clamp(2rem, 5vw, 5rem)",
           }}
         >
-          <div style={{ maxWidth: "520px" }}>
+          <motion.div
+            style={{ maxWidth: "520px" }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={staggerContainer}
+          >
             <motion.p
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-60px" }}
-              custom={0}
               variants={fadeUp}
               style={{
                 fontFamily: "var(--font-sans)",
@@ -72,10 +75,6 @@ export default function BuilderSection() {
             </motion.p>
 
             <motion.h2
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-60px" }}
-              custom={1}
               variants={fadeUp}
               style={{
                 fontFamily: "var(--font-serif)",
@@ -94,10 +93,6 @@ export default function BuilderSection() {
             </motion.h2>
 
             <motion.p
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-60px" }}
-              custom={2}
               variants={fadeUp}
               style={{
                 fontFamily: "var(--font-sans)",
@@ -115,10 +110,6 @@ export default function BuilderSection() {
 
             {/* Benefits grid */}
             <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-60px" }}
-              custom={3}
               variants={fadeUp}
               style={{
                 display: "grid",
@@ -163,13 +154,7 @@ export default function BuilderSection() {
             </motion.div>
 
             {/* Email CTA */}
-            <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-60px" }}
-              custom={4}
-              variants={fadeUp}
-            >
+            <motion.div variants={fadeUp}>
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
@@ -208,7 +193,7 @@ export default function BuilderSection() {
                 Email Our Builder Team
               </a>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Image - right */}
