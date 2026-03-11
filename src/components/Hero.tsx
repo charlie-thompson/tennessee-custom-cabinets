@@ -157,19 +157,37 @@ export default function Hero() {
           <div
             style={{
               display: "flex",
-              flexWrap: "wrap",
+              flexDirection: "column",
               alignItems: "center",
-              justifyContent: "center",
               gap: "1rem",
               marginTop: "0.5rem",
             }}
           >
-            <HeroCTA href="#consultation" variant="filled">
-              Get a Free Consultation
-            </HeroCTA>
-            <HeroCTA href="#the-craft" variant="outlined">
-              See The Craft
-            </HeroCTA>
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: "1rem" }}>
+              <HeroCTA href="#consultation" variant="filled">
+                Get a Free Consultation
+              </HeroCTA>
+              <HeroCTA href="#the-craft" variant="outlined">
+                See The Craft
+              </HeroCTA>
+            </div>
+            <a
+              href="tel:9314468034"
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
+                fontWeight: 300,
+                color: "var(--brass-light)",
+                letterSpacing: "0.08em",
+                textDecoration: "none",
+                textShadow: "0 2px 16px rgba(0,0,0,0.6)",
+                transition: "color 0.22s ease",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "white"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "var(--brass-light)"; }}
+            >
+              931.446.8034
+            </a>
           </div>
         </motion.div>
       </div>

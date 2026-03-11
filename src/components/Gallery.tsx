@@ -151,7 +151,7 @@ export default function Gallery() {
                 lineHeight: 1.75,
               }}
             >
-              Every project is built by hand in Middle Tennessee, designed to
+              Every project is built by hand in the USA, designed to
               fit your home and last a lifetime.
             </p>
           </div>

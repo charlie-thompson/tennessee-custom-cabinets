@@ -241,7 +241,7 @@ export default function BuilderSection() {
             letterSpacing: "-0.02em",
           }}
         >
-          10+
+          40+
         </p>
         <p
           style={{
@@ -254,7 +254,7 @@ export default function BuilderSection() {
             marginTop: "0.25rem",
           }}
         >
-          Years Serving Tennessee
+          Years of Experience
         </p>
       </div>
     </section>

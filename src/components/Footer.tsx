@@ -2,13 +2,28 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Facebook, Instagram } from "lucide-react";
+
+function useAnchorNav() {
+  const pathname = usePathname();
+  return (href: string) => {
+    if (!href.startsWith("#")) { window.location.href = href; return; }
+    const id = href.slice(1);
+    if (pathname === "/") {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = `/${href}`;
+    }
+  };
+}
 
 const NAV_LINKS = [
   { label: "The Craft",         href: "#the-craft" },
   { label: "Process",           href: "#process" },
   { label: "About",             href: "#about" },
   { label: "For Builders",      href: "#builders" },
+  { label: "Resources",         href: "/resources" },
   { label: "Free Consultation", href: "#consultation" },
 ];
 
@@ -25,6 +40,7 @@ const SERVICE_CITIES = [
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const navigate = useAnchorNav();
 
   return (
     <footer
@@ -66,7 +82,7 @@ export default function Footer() {
                 maxWidth: "240px",
               }}
             >
-              Handcrafted cabinetry built by hand in Middle Tennessee.
+              Handcrafted cabinetry built by hand in the USA.
             </p>
 
             {/* Phone */}
@@ -119,10 +135,15 @@ export default function Footer() {
             </p>
             <nav style={{ display: "flex", flexDirection: "column", gap: "0.7rem" }}>
               {NAV_LINKS.map((link) => (
-                <Link
+                <button
                   key={link.label}
-                  href={link.href}
+                  onClick={() => navigate(link.href)}
                   style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    padding: 0,
                     fontFamily: "var(--font-sans)",
                     fontSize: "0.85rem",
                     fontWeight: 300,
@@ -134,7 +155,7 @@ export default function Footer() {
                   onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
                 >
                   {link.label}
-                </Link>
+                </button>
               ))}
             </nav>
           </div>
@@ -258,7 +279,7 @@ export default function Footer() {
             margin: 0,
           }}
         >
-          Handcrafted in Middle Tennessee
+          Handcrafted in the USA
         </p>
       </div>
     </footer>

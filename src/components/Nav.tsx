@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
@@ -11,11 +12,32 @@ const NAV_LINKS = [
   { label: "Process", href: "#process" },
   { label: "About", href: "#about" },
   { label: "For Builders", href: "#builders" },
+  { label: "Resources", href: "/resources" },
 ];
+
+function useAnchorNav() {
+  const pathname = usePathname();
+
+  return (href: string, onDone?: () => void) => {
+    if (!href.startsWith("#")) {
+      window.location.href = href;
+      onDone?.();
+      return;
+    }
+    const id = href.slice(1);
+    if (pathname === "/") {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = `/${href}`;
+    }
+    onDone?.();
+  };
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useAnchorNav();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -67,11 +89,15 @@ export default function Nav() {
             style={{ alignItems: "center", gap: "2.5rem" }}
           >
             {NAV_LINKS.map((link) => (
-              <NavLink key={link.label} href={link.href}>
+              <NavLinkItem
+                key={link.label}
+                href={link.href}
+                onClick={() => navigate(link.href)}
+              >
                 {link.label}
-              </NavLink>
+              </NavLinkItem>
             ))}
-            <ConsultationCTA href="#consultation" />
+            <ConsultationCTA onClick={() => navigate("#consultation")} />
           </div>
 
           {/* Mobile toggle */}
@@ -120,11 +146,14 @@ export default function Nav() {
               }}
             >
               {NAV_LINKS.map((link, i) => (
-                <Link
+                <button
                   key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={() => navigate(link.href, () => setMobileOpen(false))}
                   style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textAlign: "left",
                     fontFamily: "var(--font-sans)",
                     fontSize: "0.8rem",
                     fontWeight: 400,
@@ -140,12 +169,13 @@ export default function Nav() {
                   }}
                 >
                   {link.label}
-                </Link>
+                </button>
               ))}
-              <Link
-                href="#consultation"
-                onClick={() => setMobileOpen(false)}
+              <button
+                onClick={() => navigate("#consultation", () => setMobileOpen(false))}
                 style={{
+                  background: "none",
+                  cursor: "pointer",
                   fontFamily: "var(--font-sans)",
                   fontSize: "0.75rem",
                   fontWeight: 500,
@@ -160,7 +190,7 @@ export default function Nav() {
                 }}
               >
                 Free Consultation
-              </Link>
+              </button>
             </div>
           </motion.div>
         )}
@@ -169,17 +199,46 @@ export default function Nav() {
   );
 }
 
-function NavLink({
+function NavLinkItem({
   href,
+  onClick,
   children,
 }: {
   href: string;
+  onClick: () => void;
   children: React.ReactNode;
 }) {
+  if (!href.startsWith("#")) {
+    return (
+      <Link
+        href={href}
+        style={{
+          fontFamily: "var(--font-sans)",
+          fontSize: "0.875rem",
+          fontWeight: 400,
+          color: "rgba(255,255,255,0.82)",
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          textDecoration: "none",
+          transition: "color 0.2s ease",
+          position: "relative",
+          textShadow: "0 1px 8px rgba(0,0,0,0.6)",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = "var(--brass-light)")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.82)")}
+      >
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <Link
-      href={href}
+    <button
+      onClick={onClick}
       style={{
+        background: "none",
+        border: "none",
+        cursor: "pointer",
         fontFamily: "var(--font-sans)",
         fontSize: "0.875rem",
         fontWeight: 400,
@@ -190,24 +249,23 @@ function NavLink({
         transition: "color 0.2s ease",
         position: "relative",
         textShadow: "0 1px 8px rgba(0,0,0,0.6)",
+        padding: 0,
       }}
-      onMouseEnter={(e) =>
-        (e.currentTarget.style.color = "var(--brass-light)")
-      }
-      onMouseLeave={(e) =>
-        (e.currentTarget.style.color = "rgba(255,255,255,0.82)")
-      }
+      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--brass-light)")}
+      onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.82)")}
     >
       {children}
-    </Link>
+    </button>
   );
 }
 
-function ConsultationCTA({ href }: { href: string }) {
+function ConsultationCTA({ onClick }: { onClick: () => void }) {
   return (
-    <Link
-      href={href}
+    <button
+      onClick={onClick}
       style={{
+        background: "transparent",
+        cursor: "pointer",
         fontFamily: "var(--font-sans)",
         fontSize: "0.68rem",
         fontWeight: 500,
@@ -230,6 +288,6 @@ function ConsultationCTA({ href }: { href: string }) {
       }}
     >
       Free Consultation
-    </Link>
+    </button>
   );
 }

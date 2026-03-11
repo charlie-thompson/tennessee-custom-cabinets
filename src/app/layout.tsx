@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
@@ -37,6 +39,10 @@ export const metadata: Metadata = {
     description:
       "Premium handcrafted custom cabinets serving Nashville, Franklin, Brentwood, Murfreesboro, and Middle Tennessee.",
   },
+  icons: {
+    icon: "/TN-custom-cabinets-logo.PNG",
+    apple: "/TN-custom-cabinets-logo.PNG",
+  },
   robots: {
     index: true,
     follow: true,
@@ -51,7 +57,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <Nav />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

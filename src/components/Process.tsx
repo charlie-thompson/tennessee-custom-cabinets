@@ -8,7 +8,7 @@ const STEPS = [
     title: "Free In-Home Consultation",
     timing: null,
     description:
-      "We come to you. Our team visits your home, takes precise measurements, and listens carefully to your vision, at no cost and no obligation.",
+      "We come to you. Our team visits your home, takes precise measurements, and listens carefully to your vision, at no cost and no obligation. Optional: stop by our showroom to feel the craftsmanship in person.",
     dark: false,
   },
   {
@@ -24,7 +24,7 @@ const STEPS = [
     title: "Build & Expert Installation",
     timing: null,
     description:
-      "Handcrafted in Tennessee, installed by our own crew. We handle everything from delivery to final walkthrough, on schedule, every time.",
+      "Handcrafted in the USA, installed by professionals. We handle everything from delivery to final walkthrough, on schedule, every time.",
     dark: false,
   },
 ];
