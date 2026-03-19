@@ -35,7 +35,7 @@ export async function POST(request: Request) {
           { name: "firstname",        value: data.firstName },
           { name: "lastname",         value: data.lastName },
           { name: "email",            value: data.email },
-          { name: "phone",            value: data.phone },
+          { name: "mobilephone",      value: data.phone },
           { name: "project_room",     value: data.roomType },
           { name: "cabinet_style",    value: data.style },
           { name: "project_timeline", value: data.timeline },
