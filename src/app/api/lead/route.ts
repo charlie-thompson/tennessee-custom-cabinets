@@ -5,7 +5,7 @@ interface LeadPayload {
   lastName: string;
   email: string;
   phone: string;
-  room: string;
+  roomType: string;
   style: string;
   timeline: string;
   budget: string;
@@ -25,33 +25,27 @@ export async function POST(request: Request) {
   console.log("[lead]", JSON.stringify(data, null, 2));
 
   // ── HubSpot Forms API ──────────────────────────────────────────────────────
-  // Activate: set HUBSPOT_PORTAL_ID and HUBSPOT_FORM_GUID in .env.local
-  // Docs: https://developers.hubspot.com/docs/methods/forms/submit_form
-  //
-  // if (process.env.HUBSPOT_PORTAL_ID && process.env.HUBSPOT_FORM_GUID) {
-  //   const url = `https://api.hsforms.com/submissions/v3/integration/submit/${process.env.HUBSPOT_PORTAL_ID}/${process.env.HUBSPOT_FORM_GUID}`;
-  //   await fetch(url, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       fields: [
-  //         { name: "firstname",  value: data.firstName },
-  //         { name: "lastname",   value: data.lastName },
-  //         { name: "email",      value: data.email },
-  //         { name: "phone",      value: data.phone },
-  //         { name: "message",    value: [
-  //             `Room: ${data.room}`,
-  //             `Style: ${data.style}`,
-  //             `Timeline: ${data.timeline}`,
-  //             `Budget: ${data.budget}`,
-  //             data.message ? `Note: ${data.message}` : "",
-  //           ].filter(Boolean).join("\n"),
-  //         },
-  //       ],
-  //       context: { pageUri: "https://tennesseecustomcabinets.com", pageName: "Home" },
-  //     }),
-  //   });
-  // }
+  if (process.env.HUBSPOT_PORTAL_ID && process.env.HUBSPOT_FORM_GUID) {
+    const url = `https://api.hsforms.com/submissions/v3/integration/submit/${process.env.HUBSPOT_PORTAL_ID}/${process.env.HUBSPOT_FORM_GUID}`;
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fields: [
+          { name: "firstname",        value: data.firstName },
+          { name: "lastname",         value: data.lastName },
+          { name: "email",            value: data.email },
+          { name: "phone",            value: data.phone },
+          { name: "project_room",     value: data.roomType },
+          { name: "cabinet_style",    value: data.style },
+          { name: "project_timeline", value: data.timeline },
+          { name: "project_budget",   value: data.budget },
+          { name: "message",          value: data.message || "" },
+        ],
+        context: { pageUri: "https://tennesseecustomcabinets.com", pageName: "Home" },
+      }),
+    });
+  }
 
   // ── Anthropic - personalized follow-up email copy ─────────────────────────
   // Activate: set ANTHROPIC_API_KEY in .env.local, install @anthropic-ai/sdk
@@ -68,7 +62,7 @@ export async function POST(request: Request) {
   //     messages: [
   //       {
   //         role: "user",
-  //         content: `You are a copywriter for Tennessee Custom Cabinets, a premium handcrafted cabinet company in Middle Tennessee. Write a short, warm, professional follow-up email body (2–3 paragraphs, no subject line) to a new lead named ${data.firstName}. Their project details: room = ${data.room}, style = ${data.style}, timeline = ${data.timeline}, budget = ${data.budget}. Reference their specific project naturally. End with a call to action to call 931.446.8034 or reply to schedule their free in-home consultation. Tone: premium, personal, Southern hospitality.`,
+  //         content: `You are a copywriter for Tennessee Custom Cabinets, a premium handcrafted cabinet company in Middle Tennessee. Write a short, warm, professional follow-up email body (2–3 paragraphs, no subject line) to a new lead named ${data.firstName}. Their project details: room = ${data.roomType}, style = ${data.style}, timeline = ${data.timeline}, budget = ${data.budget}. Reference their specific project naturally. End with a call to action to call 931.446.8034 or reply to schedule their free in-home consultation. Tone: premium, personal, Southern hospitality.`,
   //       },
   //     ],
   //   });
@@ -89,10 +83,10 @@ export async function POST(request: Request) {
   //     from: "Tennessee Custom Cabinets <leads@tennesseecustomcabinets.com>",
   //     to: process.env.NOTIFICATION_EMAIL ?? "info@tennesseecustomcabinets.com",
   //     replyTo: data.email,
-  //     subject: `New Lead: ${data.firstName} ${data.lastName} - ${data.room} (${data.budget})`,
+  //     subject: `New Lead: ${data.firstName} ${data.lastName} - ${data.roomType} (${data.budget})`,
   //     html: `
   //       <p><strong>${data.firstName} ${data.lastName}</strong> - ${data.email} - ${data.phone}</p>
-  //       <p>Room: ${data.room} | Style: ${data.style} | Timeline: ${data.timeline} | Budget: ${data.budget}</p>
+  //       <p>Room: ${data.roomType} | Style: ${data.style} | Timeline: ${data.timeline} | Budget: ${data.budget}</p>
   //       ${data.message ? `<p>Message: ${data.message}</p>` : ""}
   //     `,
   //   });
@@ -102,7 +96,7 @@ export async function POST(request: Request) {
   //   //   await resend.emails.send({
   //   //     from: "Tennessee Custom Cabinets <hello@tennesseecustomcabinets.com>",
   //   //     to: data.email,
-  //   //     subject: `Your custom ${data.room} project - next steps`,
+  //   //     subject: `Your custom ${data.roomType} project - next steps`,
   //   //     text: aiEmailBody,
   //   //   });
   //   // }

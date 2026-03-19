@@ -106,7 +106,7 @@ export default function Footer() {
             {/* Social */}
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <SocialLink
-                href="https://facebook.com/tennesseecustomcabinets"
+                href="https://www.facebook.com/profile.php?id=61581191876137"
                 label="Facebook"
                 icon={<Facebook size={17} />}
               />
