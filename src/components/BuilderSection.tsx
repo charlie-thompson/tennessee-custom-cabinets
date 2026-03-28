@@ -163,7 +163,7 @@ export default function BuilderSection() {
                 Ready to partner with us?
               </p>
               <a
-                href="mailto:builders@tennesseecustomcabinets.com"
+                href="mailto:sandy@tennesseecustomcabinets.com"
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontSize: "0.75rem",
